@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/dashboard"
+        android:title="@string/title_dashboard" />
+
+    <item
+        android:id="@+id/navigation_efficiency"
+        android:icon="@drawable/efficiency"
+        android:title="@string/title_efficiency" />
+
+    <item
+        android:id="@+id/navigation_daily_management"
+        android:icon="@drawable/task"
+        android:title="@string/title_daily_management" />
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/notification"
+        android:title="@string/title_notifications" />
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="@string/title_home" />
+
+</menu>

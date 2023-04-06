@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="com.google.zxing.client.android" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:name=".GlobalApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LianYa"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".WebViewActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".InstructionsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".administrator.home.PersonalDetailInfoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".worker.WorkerMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.dashboard.InstructionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.dashboard.WebViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.daily.HistoryAbnormalityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.dashboard.WorkerContinuousCaptureActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name=".worker.daily.HistoryLeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.daily.NewLeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.daily.WorkerLeaveManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.daily.NewAbnormalityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".worker.daily.WorkerAbnormalityManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".courier.CourierMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".courier.dashboard.CourierContinuousCaptureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".courier.dashboard.CourierBedContinuousCaptureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.AdminMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.daily.AdminSecondmentManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.daily.AdminAbnormalityManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.daily.AdminDealLeaveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.daily.AdminLeaveForWorkerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.daily.AdminLeaveManagementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.dashboard.AdminHistoryTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.dashboard.AdminWorkerDoingTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.dashboard.AdminWorkerDoneTaskActivity"
+            android:exported="false" />
+        <activity
+            android:name=".administrator.efficiency.AdminHistoryEfficiencyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StartActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">LianYa</string>
+    <string name="title_home">我的</string>
+    <string name="title_dashboard">工作台</string>
+    <string name="title_notifications">通知</string>
+    <string name="title_abnormality">异常</string>
+    <string name="title_leave">请假</string>
+    <string name="title_efficiency">效率</string>
+
+    <string name="title_daily_management">日常管理</string>
+    <string name="doing_task">待做任务</string>
+    <string name="done_task">已做任务</string>
+    <string name="history_task">历史任务</string>
+    <string name="history_abnormality">历史异常</string>
+    <string name="history_leave">历史请假</string>
+    <string name="abnormality_type">异常类型</string>
+    <string name="blemish_package_id">瑕疵包ID</string>
+    <string name="abnormality_sender">异常上报人</string>
+    <string name="abnormality_receiver">异常接受人</string>
+    <string name="abnormality_date">异常发生日期</string>
+    <string name="abnormality_time">异常发生时间</string>
+    <string name="abnormality_desc">异常描述</string>
+    <string name="submit">提交</string>
+
+    <string name="leave_type">请假类型</string>
+    <string name="leave_sender">请假人</string>
+    <string name="leave_start_time">请假开始时间</string>
+    <string name="leave_end_time">请假结束时间</string>
+    <string name="leave_desc">请假原因</string>
+    <string name="history_notification">历史通知</string>
+    <string name="leave_management">请假管理</string>
+    <string name="abnormality_management">异常管理</string>
+    <string name="leave_for_worker">代请假管理</string>
+    <string name="secondment_management">借调管理</string>
+    <string name="overtime_management">加班管理</string>
+    <string name="mine">我的</string>
+    <string name="history_efficiency">历史效率</string>
+    <string name="name">姓名</string>
+    <string name="logout">退出登录</string>
+    <string name="bed_delivered">床包派送</string>
+    <string name="lack_management">缺少管理</string>
+</resources>
