@@ -2,17 +2,17 @@ package com.hfut.lianya.bean;
 
 public class Abnormality {
     private Integer id;
-    private char state;
+    private Integer state;
     private String senderNo;
     private String sender;
     private String receiverNo;
     private String receiver;
-    private char abnormalityType;
+    private Integer abnormalityType;
     private String abnormalityDesc;
     private String sendTime;
     private String solveTime;
 
-    public Abnormality(Integer id, char state, String senderNo, String sender, String receiverNo, String receiver, char abnormalityType, String abnormalityDesc, String sendTime, String solveTime) {
+    public Abnormality(Integer id, Integer state, String senderNo, String sender, String receiverNo, String receiver, Integer abnormalityType, String abnormalityDesc, String sendTime, String solveTime) {
         this.id = id;
         this.state = state;
         this.senderNo = senderNo;
@@ -24,6 +24,7 @@ public class Abnormality {
         this.sendTime = sendTime;
         this.solveTime = solveTime;
     }
+
     public Abnormality() {}
 
     public Integer getId() {
@@ -32,14 +33,6 @@ public class Abnormality {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public char getState() {
-        return state;
-    }
-
-    public void setState(char state) {
-        this.state = state;
     }
 
     public String getSenderNo() {
@@ -74,11 +67,19 @@ public class Abnormality {
         this.receiver = receiver;
     }
 
-    public char getAbnormalityType() {
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Integer getAbnormalityType() {
         return abnormalityType;
     }
 
-    public void setAbnormalityType(char abnormalityType) {
+    public void setAbnormalityType(Integer abnormalityType) {
         this.abnormalityType = abnormalityType;
     }
 

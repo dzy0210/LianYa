@@ -2,8 +2,8 @@ package com.hfut.lianya.bean;
 
 public class Leave {
     int id;
-    char state;
-    char leaveType;
+    Integer state;
+    Integer leaveType;
     String sender;
     String senderNo;
     String submitter;
@@ -14,17 +14,21 @@ public class Leave {
     String startTime;
     String endTime;
 
-    public Leave(char state, char leaveType, String sender, String senderNo, String submitter, String submitterNo, String leaveDesc, String startTime, String endTime) {
+    public Leave(int id, Integer state, Integer leaveType, String sender, String senderNo, String submitter, String submitterNo, String dealer, String dealerNo, String leaveDesc, String startTime, String endTime) {
+        this.id = id;
         this.state = state;
         this.leaveType = leaveType;
         this.sender = sender;
         this.senderNo = senderNo;
         this.submitter = submitter;
         this.submitterNo = submitterNo;
+        this.dealer = dealer;
+        this.dealerNo = dealerNo;
         this.leaveDesc = leaveDesc;
         this.startTime = startTime;
         this.endTime = endTime;
     }
+
     public Leave() {}
 
     public int getId() {
@@ -35,19 +39,19 @@ public class Leave {
         this.id = id;
     }
 
-    public char getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(char state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
-    public char getLeaveType() {
+    public Integer getLeaveType() {
         return leaveType;
     }
 
-    public void setLeaveType(char leaveType) {
+    public void setLeaveType(Integer leaveType) {
         this.leaveType = leaveType;
     }
 

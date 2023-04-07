@@ -1,6 +1,7 @@
 package com.hfut.lianya.worker.daily;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.AbnormalityAdapter;
 import com.hfut.lianya.base.RxBaseActivity;
@@ -34,6 +36,7 @@ public class WorkerAbnormalityManagementActivity extends RxBaseActivity implemen
     private Toolbar toolbar;
     private TextView tvHistoryAbnormality;
     List<Abnormality> list = new ArrayList<>();
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +77,7 @@ public class WorkerAbnormalityManagementActivity extends RxBaseActivity implemen
     public void loadData() {
         super.loadData();
         RetrofitUtil.getAbnormalityAPI()
-                .getDealingAbnormality(GlobalVariable.USERNO)
+                .getDealingAbnormality(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(respond -> respond.getData())
                 .observeOn(AndroidSchedulers.mainThread())

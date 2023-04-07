@@ -2,6 +2,7 @@ package com.hfut.lianya.worker.daily;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Abnormality;
@@ -59,6 +61,7 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
     String dateTime = DateUtil.dateToString(now.getTime(), DateUtil.FORMAT_TIMESTAMP);
     TimePickerView pvAbnormalityTime;
     int id = 0;
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,10 +98,10 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
         Intent intent = getIntent();
         if(intent.getStringExtra("sendTime") != null) {
             id = intent.getIntExtra("id", 0);
-            char abnormalityState = intent.getCharExtra("abnormalityState", '0');
+            int abnormalityState = intent.getIntExtra("abnormalityState", 0);
             String receiverNo = intent.getStringExtra("receiverNo");
             String receiver = intent.getStringExtra("receiver");
-            char type = intent.getCharExtra("abnormalityType", '0');
+            int type = intent.getIntExtra("abnormalityType", 0);
             String abnormalityDesc = intent.getStringExtra("abnormalityDesc");
             String abnormalityTime = intent.getStringExtra("sendTime");
             String solveTime = intent.getStringExtra("solveTime");
@@ -106,7 +109,7 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
             spAbnormalityType.setSelectedIndex(type-'0');
             tvReceiver.setText(receiver);
             tvAbnormalityTime.setText(abnormalityTime);
-            tvSender.setText(GlobalVariable.USERNO + '-' + GlobalVariable.USERNAME);
+            tvSender.setText(sp.getString("userName", ""));
             btnSubmit.setVisibility(View.GONE);
             etAbnormalityDesc.setText(abnormalityDesc);
             tvAbnormalityManage.setText("异常详情");
@@ -150,13 +153,14 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
     }
 
     private void submit() {
-        abnormality.setState('0');
-        abnormality.setAbnormalityType((char) (spAbnormalityType.getSelectedIndex() + '0'));
+        abnormality.setState(0);
+        abnormality.setAbnormalityType(spAbnormalityType.getSelectedIndex());
         abnormality.setAbnormalityDesc(etAbnormalityDesc.getText().toString());
         abnormality.setSendTime(tvAbnormalityTime.getText().toString());
-        abnormality.setSender(GlobalVariable.USERNAME);
-        abnormality.setSenderNo(GlobalVariable.USERNAME);
+        abnormality.setSender(sp.getString("userNo", ""));
+        abnormality.setSenderNo(sp.getString("userName", ""));
         abnormality.setReceiver(tvReceiver.getText().toString());
+        abnormality.setReceiverNo(GlobalVariable.ABNORMALITY_RESPONDER_No[spAbnormalityType.getSelectedIndex()]);
 
         RetrofitUtil.getAbnormalityAPI()
                 .submit(abnormality)
@@ -236,7 +240,6 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
     }
 
     private void cancelAbnormality() {
-        Log.d("cancel", "aaaaaaaaaaaaaaaa");
         abnormality.setId(id);
         RetrofitUtil.getAbnormalityAPI()
                 .cancelAbnormality(abnormality)

@@ -37,7 +37,7 @@ public class LeaveRequestAdapter extends BaseQuickAdapter<Leave, QuickViewHolder
         }
         quickViewHolder.setText(R.id.tv_leave_state, state);
         quickViewHolder.setTextColor(R.id.tv_leave_state, color);
-        quickViewHolder.setText(R.id.tv_leave_type, GlobalVariable.LEAVE_TYPE[leave.getLeaveType()-'0']);
+        quickViewHolder.setText(R.id.tv_leave_type, GlobalVariable.LEAVE_TYPE[leave.getLeaveType()]);
         quickViewHolder.setText(R.id.tv_leave_start_time, leave.getStartTime());
         quickViewHolder.setText(R.id.tv_leave_end_time, leave.getEndTime());
     }

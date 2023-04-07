@@ -1,6 +1,7 @@
 package com.hfut.lianya.worker.daily;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.LeaveRequestAdapter;
 import com.hfut.lianya.base.RxBaseActivity;
@@ -36,6 +38,8 @@ public class WorkerLeaveManagementActivity extends RxBaseActivity implements Vie
     private RecyclerView rvLeave;
     private Button btnNewLeave;
     List<Leave> list = new ArrayList<>();
+
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +102,7 @@ public class WorkerLeaveManagementActivity extends RxBaseActivity implements Vie
     public void loadData() {
         super.loadData();
         RetrofitUtil.getLeaveAPI()
-                .getDealingLeaves(GlobalVariable.USERNO)
+                .getDealingLeaves(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(HttpRespondBody::getData)
                 .observeOn(AndroidSchedulers.mainThread())

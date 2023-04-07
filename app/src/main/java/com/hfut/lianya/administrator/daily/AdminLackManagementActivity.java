@@ -1,14 +1,20 @@
 package com.hfut.lianya.administrator.daily;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.LackAdapter;
 import com.hfut.lianya.adapters.LeaveRequestAdapter;
@@ -50,7 +56,7 @@ public class AdminLackManagementActivity extends RxBaseActivity {
     @Override
     public void initToolBar() {
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("请假管理");
+        toolbar.setTitle("缺少管理");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -72,8 +78,8 @@ public class AdminLackManagementActivity extends RxBaseActivity {
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(HttpRespondBody::getData)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(leaves -> {
-                    list.addAll(leaves);
+                .subscribe(lacks -> {
+                    list.addAll(lacks);
                     finishTask();
                 }, throwable -> {});
 
@@ -90,13 +96,9 @@ public class AdminLackManagementActivity extends RxBaseActivity {
         super.initRecyclerView();
         LackAdapter adapter = new LackAdapter();
         adapter.submitList(list);
-        adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
-            Intent intent = new Intent(getApplicationContext(), AdminDealLeaveActivity.class);
-//                intent.putExtra("leave", );
-            startActivity(intent);
-        });
         rvLack = findViewById(R.id.rv_lack);
         rvLack.setLayoutManager(new LinearLayoutManager(this));
+        rvLack.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvLack.setAdapter(adapter);
     }
 }

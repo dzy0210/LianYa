@@ -3,7 +3,7 @@ package com.hfut.lianya.net.base;
 public class NetConstant {
     // base地址
 //    public static final String BASE_URL = "http://192.168.1.114:9090";
-    public static final String BASE_URL = "http://114.213.213.61:9090";
+    public static final String BASE_URL = "http://114.213.213.67:9090";
 //    public static final String BASE_URL = "http://101.34.129.170:9090";
     /**
      * 用户接口
@@ -13,7 +13,7 @@ public class NetConstant {
     // 注册
     public static final String REGISTER = USER + "/register";
     // 登录
-    public static final String LOGIN = USER + "/isPass";
+    public static final String LOGIN = USER + "/login";
     //版本号
     public static final String VERSION = "/app/version";
     public static final String DOING = TASK + "/doing";

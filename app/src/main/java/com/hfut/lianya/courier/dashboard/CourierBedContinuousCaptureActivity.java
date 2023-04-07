@@ -104,7 +104,7 @@ public class CourierBedContinuousCaptureActivity extends RxBaseActivity {
                     dialogInterface.dismiss();
                 }).show();
             } else {
-                String s = "确认将床包"+result+"派送至"+currentWorkstation+"?";
+                String s = "确认将床包/工具"+result+"派送至"+currentWorkstation+"?";
                 new MaterialAlertDialogBuilder(this).setMessage(s).setPositiveButton("确认", (dialogInterface, i) -> {
                     delivered(result, currentWorkstation);
                     barcodeView.resume();

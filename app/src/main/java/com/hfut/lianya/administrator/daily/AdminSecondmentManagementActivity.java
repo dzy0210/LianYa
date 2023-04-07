@@ -153,22 +153,6 @@ public class AdminSecondmentManagementActivity extends RxBaseActivity implements
         }
     }
 
-    private void newLeave() {
-        Leave leave = new Leave('0', '1', "001", "002", "002", "011156", "2023", "2024", "");
-        RetrofitUtil.getLeaveAPI()
-                .submitLeave(leave)
-                .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
-                .map(HttpRespondBody::getCode)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(code -> {
-                    if(code == 200){
-                        Toast.makeText(this, "提交成功", Toast.LENGTH_LONG);
-                        onBackPressed();
-                    }
-                    finishTask();
-                }, throwable -> {});
-    }
-
     private void selectStartTime(View view) {
         pvBeginTime.show(view);
     }
@@ -182,8 +166,6 @@ public class AdminSecondmentManagementActivity extends RxBaseActivity implements
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_secondment_confirmation:
-                newLeave();
-                break;
         }
     }
 }

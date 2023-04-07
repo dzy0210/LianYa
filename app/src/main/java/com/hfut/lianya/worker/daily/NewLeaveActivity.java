@@ -2,6 +2,7 @@ package com.hfut.lianya.worker.daily;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.global.GlobalVariable;
@@ -57,6 +59,8 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
     String dateTime = DateUtil.dateToString(now.getTime(), DateUtil.FORMAT_TIMESTAMP);
     List<String> leaveType = new LinkedList<>(Arrays.asList(GlobalVariable.LEAVE_TYPE));
     TimePickerView pvStartTime, pvEndTime;
+    GlobalApplication application = GlobalApplication.getInstance();
+    SharedPreferences sp = application.getSharedPreferences("user", MODE_PRIVATE);
     int id = 0;
 
     @Override
@@ -103,11 +107,11 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
         Intent intent = getIntent();
         if(intent.getStringExtra("startTime") != null) {
             id = intent.getIntExtra("id", 0);
-            char leaveState = intent.getCharExtra("leaveState", '0');
-            char type = intent.getCharExtra("leaveType", '0');
+            int leaveState = intent.getIntExtra("leaveState", 0);
+            int type = intent.getIntExtra("leaveType", 0);
             String leaveStartTime = intent.getStringExtra("startTime");
             String leaveEndTime = intent.getStringExtra("endTime");
-            char isComplete = intent.getCharExtra("isComplete", '0');
+            int isComplete = intent.getIntExtra("isComplete", 0);
             String leaveDesc = intent.getStringExtra("leaveDesc");
             spLeaveType.setSelectedIndex(type - '0');
             spIsComplete.setSelectedIndex(isComplete-'0');
@@ -115,7 +119,7 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
             tvLeaveEndTime.setText(leaveEndTime);
             etLeaveDesc.setText(leaveDesc);
             tvLeaveManage.setText("请假详情");
-            tvLeaveSender.setText(GlobalVariable.USERNO + '-' + GlobalVariable.USERNAME);
+            tvLeaveSender.setText(sp.getString("userName", ""));
             btnSubmit.setVisibility(View.GONE);
 
             spLeaveType.setEnabled(false);
@@ -235,10 +239,14 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
     }
     private void submit() {
         leave.setLeaveDesc(etLeaveDesc.getText().toString());
-        leave.setLeaveType((char)('0'+ spLeaveType.getSelectedIndex()));
+        leave.setLeaveType(spLeaveType.getSelectedIndex());
         leave.setSender(tvLeaveSender.getText().toString());
+        leave.setSenderNo(sp.getString("userNo", ""));
         leave.setStartTime(tvLeaveStartTime.getText().toString());
         leave.setEndTime(tvLeaveEndTime.getText().toString());
+        leave.setSubmitter(sp.getString("userName", ""));
+        leave.setSubmitterNo(sp.getString("userNo", ""));
+        leave.setState(0);
 
         RetrofitUtil.getLeaveAPI()
                 .submitLeave(leave)

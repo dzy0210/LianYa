@@ -89,6 +89,9 @@
             android:name=".administrator.AdminMainActivity"
             android:exported="false" />
         <activity
+            android:name=".administrator.daily.AdminLackManagementActivity"
+            android:exported="false" />
+        <activity
             android:name=".administrator.daily.AdminSecondmentManagementActivity"
             android:exported="false" />
         <activity

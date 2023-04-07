@@ -177,7 +177,7 @@ public class AdminLeaveForWorkerActivity extends RxBaseActivity implements View.
     }
 
     private void newLeave() {
-        Leave leave = new Leave('0', '1', "001", "002", "002", "011156", "2023", "2024", "");
+        Leave leave = new Leave();
         RetrofitUtil.getLeaveAPI()
                 .submitLeave(leave)
                 .compose(bindToLifecycle())

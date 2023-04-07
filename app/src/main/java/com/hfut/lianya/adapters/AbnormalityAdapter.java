@@ -52,7 +52,7 @@ public class AbnormalityAdapter extends BaseQuickAdapter<Abnormality, QuickViewH
         }
         quickViewHolder.setText(R.id.tv_abnormality_state, state);
         quickViewHolder.setTextColor(R.id.tv_abnormality_state, color);
-        quickViewHolder.setText(R.id.tv_abnormality_type, GlobalVariable.ABNORMALITY_TYPE[abnormality.getAbnormalityType() - '0']);
+        quickViewHolder.setText(R.id.tv_abnormality_type, GlobalVariable.ABNORMALITY_TYPE[abnormality.getAbnormalityType()]);
 }
 
     @NonNull

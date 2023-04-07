@@ -94,12 +94,12 @@ public class LoginActivity extends RxBaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(respond -> {
                     if(respond.getCode() == 200) {
-
-                        Log.d("login", String.valueOf(respond.getCode()));
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("userType", respond.getData().getUserType());
                         editor.putString("token", respond.getData().getToken());
                         editor.putBoolean("isLogged", true);
+                        editor.putString("userNo", respond.getData().getUserNo());
+                        editor.putString("userName", respond.getData().getUserName());
                         editor.apply();
                         redirect(respond.getData().getUserType());
                     }
