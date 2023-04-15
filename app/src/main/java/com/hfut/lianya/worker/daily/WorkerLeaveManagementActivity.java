@@ -44,7 +44,7 @@ public class WorkerLeaveManagementActivity extends RxBaseActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initViews(savedInstanceState);
-        loadData();
+//        loadData();
     }
 
     @Override
@@ -59,6 +59,12 @@ public class WorkerLeaveManagementActivity extends RxBaseActivity implements Vie
         rvLeave = findViewById(R.id.rv_leave);
         tvHistoryLeave.setOnClickListener(this);
         btnNewLeave.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
     }
 
     @Override
@@ -101,6 +107,7 @@ public class WorkerLeaveManagementActivity extends RxBaseActivity implements Vie
     @Override
     public void loadData() {
         super.loadData();
+        list.clear();
         RetrofitUtil.getLeaveAPI()
                 .getDealingLeaves(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())

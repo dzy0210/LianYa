@@ -2,7 +2,7 @@ package com.hfut.lianya.net;
 
 public class HttpRespondBody<T>{
     private int code;
-    private String message;
+    private String msg;
     private Long count;
     private T data;
 
@@ -17,12 +17,12 @@ public class HttpRespondBody<T>{
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public Long getCount() {

@@ -74,8 +74,7 @@ public class RetrofitUtil {
                             .retryOnConnectionFailure(true)
                             .connectTimeout(30, TimeUnit.SECONDS)
                             .writeTimeout(20, TimeUnit.SECONDS)
-                            .readTimeout(20, TimeUnit.SECONDS).
-                            addInterceptor(interceptor)
+                            .readTimeout(20, TimeUnit.SECONDS)
                             .build();
                 }
             }

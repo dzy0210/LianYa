@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
@@ -25,6 +26,8 @@ import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Fkpb;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
+import com.hfut.lianya.utils.DateUtil;
+import com.hfut.lianya.utils.QRCodeUtil;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -32,6 +35,7 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -110,9 +114,17 @@ public class WorkerContinuousCaptureActivity extends RxBaseActivity {
     private BarcodeCallback callback = new BarcodeCallback() {
         @Override
         public void barcodeResult(BarcodeResult result) {
-            if(result.getText() == null ) {
-                return;
-            }else{
+            barcodeView.pause();
+            if(QRCodeUtil.getCodeType(result.getText()).equals("S") ) {
+                new MaterialAlertDialogBuilder(getApplicationContext()).setMessage("当前工作台为"+result.getText()+"确认在此打卡？").setPositiveButton("确定", (dialogInterface, i) -> {
+                    clockIn();
+                    barcodeView.resume();
+                    dialogInterface.dismiss();
+                }).setNegativeButton("取消", (dialogInterface, i) -> {
+                    barcodeView.resume();
+                    dialogInterface.dismiss();
+                }).show();
+            } else {
                 barcodeView.pause();
                 getPackageInfo(result.getText());
             }
@@ -123,6 +135,21 @@ public class WorkerContinuousCaptureActivity extends RxBaseActivity {
         public void possibleResultPoints(List<ResultPoint> resultPoints) {
         }
     };
+
+    private void clockIn() {
+        String time = DateUtil.getCurrentTime(DateUtil.FORMAT_TIME);
+
+        RetrofitUtil.getUserAPI()
+                .clockIn(sharedPreferences.getString("userNo", ""), time)
+                .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(respondBody -> {
+                    if(respondBody.getCode() == 200){
+                        Toast.makeText(getApplicationContext(), respondBody.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                    finishTask();
+                }, throwable -> {});
+    }
 
     protected void dialog(Fkpb packageInfo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -149,11 +176,10 @@ public class WorkerContinuousCaptureActivity extends RxBaseActivity {
         RetrofitUtil.getDashboardAPI()
                 .start(packageId, userNo, pauseTime)
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
-                .map(HttpRespondBody::getCode)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(code -> {
-                    if(code == 200){
-                        Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_LONG).show();
+                .subscribe(respondBody -> {
+                    if(respondBody.getCode() == 200){
+                        Toast.makeText(getApplicationContext(), "提交成功", Toast.LENGTH_SHORT).show();
                     }
                     finishTask();
                 }, throwable -> {});

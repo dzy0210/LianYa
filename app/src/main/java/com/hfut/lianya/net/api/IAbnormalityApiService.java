@@ -8,6 +8,8 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -19,6 +21,8 @@ public interface IAbnormalityApiService {
     Observable<HttpRespondBody> editAbnormality(@Body Abnormality abnormality);
     @POST(NetConstant.CANCEL_ABNORMALITY)
     Observable<HttpRespondBody> cancelAbnormality(@Body Abnormality abnormality);
+    @POST(NetConstant.DEAL_ABNORMALITY)
+    Observable<HttpRespondBody> dealAbnormality(@Body Abnormality abnormality);
     @GET(NetConstant.GET_DEALING_ABNORMALITY)
     Observable<HttpRespondBody<List<Abnormality>>> getDealingAbnormality(@Query("userNo") String userNo);
     @GET(NetConstant.GET_HISTORY_ABNORMALITY)

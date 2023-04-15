@@ -113,8 +113,8 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
             String leaveEndTime = intent.getStringExtra("endTime");
             int isComplete = intent.getIntExtra("isComplete", 0);
             String leaveDesc = intent.getStringExtra("leaveDesc");
-            spLeaveType.setSelectedIndex(type - '0');
-            spIsComplete.setSelectedIndex(isComplete-'0');
+            spLeaveType.setSelectedIndex(type);
+            spIsComplete.setSelectedIndex(isComplete);
             tvLeaveStartTime.setText(leaveStartTime);
             tvLeaveEndTime.setText(leaveEndTime);
             etLeaveDesc.setText(leaveDesc);

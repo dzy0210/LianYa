@@ -10,12 +10,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.cretin.www.cretinautoupdatelibrary.interfaces.AppDownloadListener;
+import com.cretin.www.cretinautoupdatelibrary.interfaces.MD5CheckListener;
+import com.cretin.www.cretinautoupdatelibrary.model.DownloadInfo;
+import com.cretin.www.cretinautoupdatelibrary.utils.AppUpdateUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hfut.lianya.BuildConfig;
 import com.hfut.lianya.DownloadUtil;
@@ -41,9 +46,63 @@ public class CourierMainActivity extends RxBaseActivity {
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(navView, navController);
-        checkUpdate();
+//        checkUpdate();
+
     }
 
+    private void update() {
+        DownloadInfo info = new DownloadInfo().setApkUrl("http://101.34.129.170:90/lianya.apk")
+                .setFileSize(31338250)
+                .setProdVersionCode(25)
+                .setProdVersionName("2.3.1")
+//                .setMd5Check("68919BF998C29DA3F5BD2C0346281AC0")
+                .setForceUpdateFlag(1)
+                .setUpdateLog("1、优化细节和体验，更加稳定\n2、引入大量优质用户\r\n3、修复已知bug\n4、风格修改");
+        AppUpdateUtils.getInstance()
+                .addMd5CheckListener(new MD5CheckListener() {
+                    @Override
+                    public void fileMd5CheckFail(String originMD5, String localMD5) {
+
+                    }
+
+                    @Override
+                    public void fileMd5CheckSuccess() {
+
+                    }
+                })//添加MD5检查更新
+                .addAppDownloadListener(new AppDownloadListener() {
+                    @Override
+                    public void downloading(int progress) {
+
+                    }
+
+                    @Override
+                    public void downloadFail(String msg) {
+
+                    }
+
+                    @Override
+                    public void downloadComplete(String path) {
+
+                    }
+
+                    @Override
+                    public void downloadStart() {
+
+                    }
+
+                    @Override
+                    public void reDownload() {
+
+                    }
+
+                    @Override
+                    public void pause() {
+
+                    }
+                })//添加文件下载监听
+                .checkUpdate(info);
+    }
     @Override
     public int getLayoutId() {
         return R.layout.activity_courier_main;
@@ -68,7 +127,7 @@ public class CourierMainActivity extends RxBaseActivity {
                 .subscribe(respondBody->{
                     version = respondBody.getData();
                     if(version > getLocalVersion()) {
-                        dialog();
+
                     }
                 }, throwable -> {});
     }
@@ -82,68 +141,7 @@ public class CourierMainActivity extends RxBaseActivity {
         }
         return localVersion;
     }
-    public void downUrl() {
-        ProgressDialog pd = new ProgressDialog(this);
-        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        pd.setMessage("正在下载安装包，请稍等...");
-        pd.setCancelable(false);
-        pd.setMax(100);
-        pd.setProgress(0);
-        pd.show();
-        DownloadUtil.get().download("", getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath(), "",new DownloadUtil.OnDownloadListener() {
-            @Override
-            public void onDownloadSuccess(File file) {
-                pd.dismiss();
-                installAPK(file);
-            }
 
-            @Override
-            public void onDownloading(int progress) {
-                pd.setProgress(progress);
-            }
 
-            @Override
-            public void onDownloadFailed(Exception e) {
-
-            }
-        });
-    }
-
-    private void installAPK(File apk) {
-        Intent intent=new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri apkFileUri;
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
-            apkFileUri= FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID+".provider",apk);
-        }else{
-            apkFileUri=Uri.fromFile(apk);
-        }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(apkFileUri,"application/vnd.android.package-archive");
-        Log.i("tag","开始安装");
-        try {
-            this.startActivity(intent);
-//            finish();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
-
-    protected void dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //builder.setMessage("确认退出？");
-        builder.setMessage("发现新版本，点击确认开始下载");
-
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int arg1) {
-                dialog.dismiss();
-                downUrl();
-            }
-        });
-        builder.create().show();
-    }
 }
 

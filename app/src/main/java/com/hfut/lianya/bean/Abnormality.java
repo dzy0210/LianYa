@@ -7,18 +7,22 @@ public class Abnormality {
     private String sender;
     private String receiverNo;
     private String receiver;
+    private String workstation;
+    private String packageId;
     private Integer abnormalityType;
     private String abnormalityDesc;
     private String sendTime;
     private String solveTime;
 
-    public Abnormality(Integer id, Integer state, String senderNo, String sender, String receiverNo, String receiver, Integer abnormalityType, String abnormalityDesc, String sendTime, String solveTime) {
+    public Abnormality(Integer id, Integer state, String senderNo, String sender, String receiverNo, String receiver, String workstation, String packageId, Integer abnormalityType, String abnormalityDesc, String sendTime, String solveTime) {
         this.id = id;
         this.state = state;
         this.senderNo = senderNo;
         this.sender = sender;
         this.receiverNo = receiverNo;
         this.receiver = receiver;
+        this.workstation = workstation;
+        this.packageId = packageId;
         this.abnormalityType = abnormalityType;
         this.abnormalityDesc = abnormalityDesc;
         this.sendTime = sendTime;
@@ -65,6 +69,22 @@ public class Abnormality {
 
     public void setReceiver(String receiver) {
         this.receiver = receiver;
+    }
+
+    public String getWorkstation() {
+        return workstation;
+    }
+
+    public void setWorkstation(String workstation) {
+        this.workstation = workstation;
+    }
+
+    public String getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(String packageId) {
+        this.packageId = packageId;
     }
 
     public Integer getState() {
@@ -116,6 +136,8 @@ public class Abnormality {
                 ", sender='" + sender + '\'' +
                 ", receiverNo='" + receiverNo + '\'' +
                 ", receiver='" + receiver + '\'' +
+                ", workstation='" + workstation + '\'' +
+                ", packageId='" + packageId + '\'' +
                 ", abnormalityType=" + abnormalityType +
                 ", abnormalityDesc='" + abnormalityDesc + '\'' +
                 ", sendTime='" + sendTime + '\'' +

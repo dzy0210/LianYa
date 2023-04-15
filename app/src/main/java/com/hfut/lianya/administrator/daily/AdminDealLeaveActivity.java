@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -12,11 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Leave;
-import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AdminDealLeaveActivity extends RxBaseActivity implements View.OnClickListener {
     Toolbar toolbar;
@@ -26,13 +21,13 @@ public class AdminDealLeaveActivity extends RxBaseActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_deal_leave);
+        setContentView(R.layout.activity_deal_abnormality);
         initToolBar();
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_admin_deal_leave;
+        return R.layout.activity_deal_abnormality;
     }
 
     @Override

@@ -57,6 +57,7 @@ public class WorkerDashboardFragment extends RxLazyFragment implements View.OnCl
     LinearLayout llPause;
     private List<Fkpb>list = new ArrayList<>();
     private GlobalApplication application = GlobalApplication.getInstance();
+    SharedPreferences sp = application.getSharedPreferences("user", Context.MODE_PRIVATE);
     double hourlyWage;
     double pieceRateWage;
     RecyclerView rvDoingTask;
@@ -228,13 +229,28 @@ public class WorkerDashboardFragment extends RxLazyFragment implements View.OnCl
         GlobalApplication.getInstance().pauseStartTime = now.getTime();
     }
 
+    private void knockOff() {
+        String time = DateUtil.getCurrentTime(DateUtil.FORMAT_TIME);
+        RetrofitUtil.getUserAPI()
+                .knockOff(sp.getString("userNo", ""), time)
+                .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(respond -> {
+                    if(respond.getCode() == 200){
+                        Toast.makeText(getApplicationContext(), respond.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    getActivity().finish();
+                }, throwable -> {});
+    }
     private void leave() {
+        knockOff();
         SharedPreferences sharedPreferences = GlobalApplication.getInstance().getSharedPreferences("user", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
     }
+
 
     private void scanContinuous() {
         Intent intent = new Intent(getContext(), WorkerContinuousCaptureActivity.class);

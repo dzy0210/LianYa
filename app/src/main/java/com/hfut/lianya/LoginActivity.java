@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.hfut.lianya.abnormalitymanager.AbnormalityManagerMainActivity;
 import com.hfut.lianya.administrator.AdminMainActivity;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.User;
@@ -25,11 +26,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginActivity extends RxBaseActivity {
     private Button mLogin;
-    private EditText mAccountNumber;
-    private EditText mPassword;
-    SharedPreferences sharedPreferences;
-    TextInputLayout tilTest;
-    TextInputEditText etTest;
+    SharedPreferences sharedPreferences = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
+    TextInputLayout tilUserNo;
+    TextInputLayout tilPassword;
+    TextInputEditText etUserNo;
+    TextInputEditText etPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,11 @@ public class LoginActivity extends RxBaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        tilTest = findViewById(R.id.til_test);
-        etTest = findViewById(R.id.et_test);
-        tilTest.getEditText().addTextChangedListener(new TextWatcher() {
+        tilUserNo = findViewById(R.id.til_user_no);
+        tilPassword = findViewById(R.id.til_password);
+        etUserNo = findViewById(R.id.et_user_no);
+        etPassword = findViewById(R.id.et_password);
+        tilPassword.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -59,23 +62,15 @@ public class LoginActivity extends RxBaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(tilTest.getEditText().getText().toString().length() < 6) {
-                    tilTest.setError("密码不能少于6位！");
+                if(tilPassword.getEditText().getText().toString().length() < 6) {
+                    tilPassword.setError("密码不能少于6位！");
                 } else {
-                    tilTest.setError(null);
+                    tilPassword.setError(null);
                 }
             }
         });
         mLogin = findViewById(R.id.login);
-        mAccountNumber = findViewById(R.id.account_number);
-        mPassword = findViewById(R.id.password);
-        sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login();
-            }
-        });
+        mLogin.setOnClickListener(v -> login());
     }
 
     @Override
@@ -85,8 +80,8 @@ public class LoginActivity extends RxBaseActivity {
 
     private void login() {
         User user = new User();
-        user.setUserNo(mAccountNumber.getText().toString());
-        user.setPassword(mPassword.getText().toString());
+        user.setUserNo(tilUserNo.getEditText().getText().toString());
+        user.setPassword(tilPassword.getEditText().getText().toString());
         RetrofitUtil.getUserAPI()
                 .login(user)
                 .compose(bindToLifecycle())
@@ -102,29 +97,12 @@ public class LoginActivity extends RxBaseActivity {
                         editor.putString("userName", respond.getData().getUserName());
                         editor.apply();
                         redirect(respond.getData().getUserType());
-                    }
-                    else {
-                        Toast.makeText(this, respond.getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, respond.getMsg(), Toast.LENGTH_LONG).show();
                     }
                 }, throwable -> {
                     Toast.makeText(this, "通信失败！", Toast.LENGTH_LONG).show();
                 });
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        if(mAccountNumber.getText().toString().equals("0")) {
-//            editor.putBoolean("isLogged", true);
-//            editor.putInt("userType", 0);
-//            startWorker();
-//        } else if(mAccountNumber.getText().toString().equals("1")) {
-//            editor.putBoolean("isLogged", true);
-//            editor.putInt("userType", 1);
-//            startCourier();
-//        } else if(mAccountNumber.getText().toString().equals("2")) {
-//            editor.putBoolean("isLogged", true);
-//            editor.putInt("userType", 2);
-//            startAdministrator();
-//        }
-//        editor.apply();
-//        finish();
     }
 
     private void redirect(int userType) {
@@ -144,6 +122,11 @@ public class LoginActivity extends RxBaseActivity {
                 finish();
                 break;
             }
+            case 3: {
+                startAbnormalityManager();
+                finish();
+                break;
+            }
             default:
                 break;
         }
@@ -153,14 +136,16 @@ public class LoginActivity extends RxBaseActivity {
         Intent intent = new Intent(this, AdminMainActivity.class);
         startActivity(intent);
     }
-
     private void startCourier() {
         Intent intent = new Intent(this, CourierMainActivity.class);
         startActivity(intent);
     }
-
     private void startWorker() {
         Intent intent = new Intent(this, WorkerMainActivity.class);
+        startActivity(intent);
+    }
+    private void startAbnormalityManager() {
+        Intent intent = new Intent(this, AbnormalityManagerMainActivity.class);
         startActivity(intent);
     }
 }

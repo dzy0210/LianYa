@@ -39,4 +39,22 @@
     <string name="logout">退出登录</string>
     <string name="bed_delivered">床包派送</string>
     <string name="lack_management">缺少管理</string>
+    <string name="worker_no">工号</string>
+    <string name="modify_password">修改密码</string>
+    <string name="new_password">新密码</string>
+    <string name="old_password">原密码</string>
+    <string name="please_enter_old_password">请输入原密码</string>
+    <string name="please_enter_new_password">请输入新密码</string>
+    <string name="confirm_new_password">确认密码</string>
+    <string name="please_confirm_new_password">请再次填写确认</string>
+    <string name="confirm_modify">确认修改</string>
+    <string name="please_enter_password">请输入密码</string>
+    <string name="please_enter_user_no">请输入账号</string>
+    <string name="login">登录</string>
+    <string name="accept_abnormality">接受异常</string>
+    <string name="reject_abnormality">拒绝异常</string>
+    <string name="abnormality_end_time">异常结束时间</string>
+    <string name="workstation">工作站</string>
+    <string name="complete_abnormality">解决异常</string>
+    <string name="check_update">检查更新</string>
 </resources>

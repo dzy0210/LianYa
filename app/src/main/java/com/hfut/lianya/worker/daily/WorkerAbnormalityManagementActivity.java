@@ -3,6 +3,7 @@ package com.hfut.lianya.worker.daily;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +41,14 @@ public class WorkerAbnormalityManagementActivity extends RxBaseActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("testtest", "onCreate");
+//        loadData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("testtest", "onResume");
         loadData();
     }
 
@@ -76,6 +85,7 @@ public class WorkerAbnormalityManagementActivity extends RxBaseActivity implemen
 
     public void loadData() {
         super.loadData();
+        list.clear();
         RetrofitUtil.getAbnormalityAPI()
                 .getDealingAbnormality(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())

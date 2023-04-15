@@ -106,7 +106,7 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
             String abnormalityTime = intent.getStringExtra("sendTime");
             String solveTime = intent.getStringExtra("solveTime");
 
-            spAbnormalityType.setSelectedIndex(type-'0');
+            spAbnormalityType.setSelectedIndex(type);
             tvReceiver.setText(receiver);
             tvAbnormalityTime.setText(abnormalityTime);
             tvSender.setText(sp.getString("userName", ""));

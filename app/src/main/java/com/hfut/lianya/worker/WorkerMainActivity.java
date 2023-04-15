@@ -21,6 +21,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class WorkerMainActivity extends RxBaseActivity {
 
+    GlobalApplication application = GlobalApplication.getInstance();
     BottomNavigationView navView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +30,6 @@ public class WorkerMainActivity extends RxBaseActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(navView, navController);
         initData();
-        BadgeDrawable badgeDrawable = navView.getOrCreateBadge(R.id.navigation_notifications);
-        badgeDrawable.setNumber(100);
     }
 
     @Override
@@ -55,10 +54,12 @@ public class WorkerMainActivity extends RxBaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(respondBody -> {
                     InitData data = respondBody.getData();
-                    GlobalApplication.getInstance().abnormalityNap.clear();
-                    GlobalApplication.getInstance().abnormalityNap.putAll(data.getAbnormalityMap());
-                    GlobalApplication.getInstance().leaveType.clear();
-                    GlobalApplication.getInstance().leaveType.addAll(data.getLeaveType());
+                    application.abnormalityResponder.clear();
+                    application.abnormalityResponder.addAll(data.getAbnormalityResponder());
+                    application.abnormalityType.clear();
+                    application.abnormalityType.addAll(data.getAbnormalityType());
+                    application.leaveType.clear();
+                    application.leaveType.addAll(data.getLeaveType());
                 }, throwable -> {});
     }
 }

@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".GlobalApplication"
@@ -21,26 +24,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".WebViewActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".InstructionsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".administrator.home.PersonalDetailInfoActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
         </activity>
+        <activity
+            android:name=".administrator.home.ModifyPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".worker.WorkerMainActivity"
             android:exported="false" />
@@ -117,6 +106,12 @@
             android:exported="false" />
         <activity
             android:name=".administrator.efficiency.AdminHistoryEfficiencyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".abnormalitymanager.AbnormalityManagerMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".abnormalitymanager.dashboard.DealAbnormalityActivity"
             android:exported="false" />
         <activity
             android:name=".StartActivity"

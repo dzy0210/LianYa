@@ -1,12 +1,12 @@
-package com.hfut.lianya.administrator;
+package com.hfut.lianya.abnormalitymanager;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
@@ -17,14 +17,14 @@ import com.hfut.lianya.net.RetrofitUtil;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class AdminMainActivity extends RxBaseActivity {
+public class AbnormalityManagerMainActivity extends RxBaseActivity {
 
+    BottomNavigationView navView;
     GlobalApplication application = GlobalApplication.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-
+        navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(navView, navController);
         initData();
@@ -32,7 +32,7 @@ public class AdminMainActivity extends RxBaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_admin_main;
+        return R.layout.activity_abnormality_manager_main;
     }
 
     @Override
@@ -60,5 +60,4 @@ public class AdminMainActivity extends RxBaseActivity {
                     application.leaveType.addAll(data.getLeaveType());
                 }, throwable -> {});
     }
-
 }

@@ -3,15 +3,24 @@ package com.hfut.lianya.bean;
 import java.util.List;
 import java.util.Map;
 public class InitData {
-    Map<String,String> abnormalityMap;
+    List<String> abnormalityType;
+    List<String> abnormalityResponder;
     List<String> leaveType;
 
-    public Map<String, String> getAbnormalityMap() {
-        return abnormalityMap;
+    public List<String> getAbnormalityType() {
+        return abnormalityType;
     }
 
-    public void setAbnormalityMap(Map<String, String> abnormalityMap) {
-        this.abnormalityMap = abnormalityMap;
+    public void setAbnormalityType(List<String> abnormalityType) {
+        this.abnormalityType = abnormalityType;
+    }
+
+    public List<String> getAbnormalityResponder() {
+        return abnormalityResponder;
+    }
+
+    public void setAbnormalityResponder(List<String> abnormalityResponder) {
+        this.abnormalityResponder = abnormalityResponder;
     }
 
     public List<String> getLeaveType() {
@@ -25,7 +34,8 @@ public class InitData {
     @Override
     public String toString() {
         return "InitData{" +
-                "abnormalityMap=" + abnormalityMap +
+                "abnormalityType=" + abnormalityType +
+                ", abnormalityResponder=" + abnormalityResponder +
                 ", leaveType=" + leaveType +
                 '}';
     }

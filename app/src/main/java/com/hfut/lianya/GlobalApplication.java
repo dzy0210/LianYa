@@ -13,7 +13,9 @@ public class GlobalApplication extends Application {
     private static GlobalApplication globalApplication;
     public Map<String, String> map = new HashMap<>();
     public List<String> leaveType = new ArrayList<>();
-    public Map<String, String> abnormalityNap = new HashMap<>();
+    public Map<String, String> abnormalityMap = new HashMap<>();
+    public List<String> abnormalityType = new ArrayList<>();
+    public List<String> abnormalityResponder = new ArrayList<>();
     public Date pauseStartTime;
     public Date pauseEndTime;
     public static GlobalApplication getInstance() {

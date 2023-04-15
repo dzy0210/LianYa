@@ -2,8 +2,8 @@ package com.hfut.lianya.net.base;
 
 public class NetConstant {
     // base地址
-//    public static final String BASE_URL = "http://192.168.1.114:9090";
-    public static final String BASE_URL = "http://114.213.213.67:9090";
+    public static final String BASE_URL = "http://192.168.1.110:9090";
+//    public static final String BASE_URL = "http://114.213.213.67:9090";
 //    public static final String BASE_URL = "http://101.34.129.170:9090";
     /**
      * 用户接口
@@ -14,6 +14,9 @@ public class NetConstant {
     public static final String REGISTER = USER + "/register";
     // 登录
     public static final String LOGIN = USER + "/login";
+    public static final String MODIFY_PASSWORD = USER + "/modify_password";
+    public static final String CLOCK_IN = USER + "/clock_in";
+    public static final String KNOCK_OFF = USER + "/knock_off";
     //版本号
     public static final String VERSION = "/app/version";
     public static final String DOING = TASK + "/doing";
@@ -23,6 +26,9 @@ public class NetConstant {
     public static final String EDIT_ABNORMALITY = BASE_URL + ABNORMALITY + "/edit";
     public static final String CANCEL_ABNORMALITY = BASE_URL + ABNORMALITY + "/cancel";
     public static final String DEAL_ABNORMALITY = BASE_URL + ABNORMALITY + "/deal";
+    public static final String ACCEPT_ABNORMALITY = BASE_URL + ABNORMALITY + "/accept";
+    public static final String REJECT_ABNORMALITY = BASE_URL + ABNORMALITY + "/reject";
+    public static final String COMPLETE_ABNORMALITY = BASE_URL + ABNORMALITY + "/complete";
     public static final String GET_DEALING_ABNORMALITY = BASE_URL + ABNORMALITY + "/dealing";
     public static final String GET_HISTORY_ABNORMALITY = BASE_URL+ ABNORMALITY + "/history";
     public static final String GET_DEALING_ABNORMALITY_BY_DEALER = BASE_URL + ABNORMALITY + "/dealing_dealer";

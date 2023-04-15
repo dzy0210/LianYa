@@ -3,16 +3,22 @@ package com.hfut.lianya.administrator.home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 
+import com.cretin.www.cretinautoupdatelibrary.interfaces.AppDownloadListener;
+import com.cretin.www.cretinautoupdatelibrary.interfaces.MD5CheckListener;
+import com.cretin.www.cretinautoupdatelibrary.model.DownloadInfo;
+import com.cretin.www.cretinautoupdatelibrary.utils.AppUpdateUtils;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.LoginActivity;
 import com.hfut.lianya.R;
@@ -38,7 +44,10 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
     private CardView cvHistoryLeave;
     private CardView cvLogout;
     private CardView cvBedDelivered;
-
+    private CardView cvCheckUpdate;
+    private TextView tvUserNo;
+    private TextView tvUserName;
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", Context.MODE_PRIVATE);
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_admin_home;
@@ -64,12 +73,18 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
         cvHistoryTask = binding.cvHistoryTask;
         cvLogout = binding.cvLogout;
         cvBedDelivered = binding.cvBedDelivered;
+        cvCheckUpdate = binding.cvCheckUpdate;
+        tvUserNo = binding.tvWorkerNo;
+        tvUserName = binding.tvWorkerName;
+        tvUserName.setText(sp.getString("userName", ""));
+        tvUserNo.setText(sp.getString("userNo", ""));
         cvPersonalInfo.setOnClickListener(this);
         cvHistoryAbnormality.setOnClickListener(this);
         cvHistoryLeave.setOnClickListener(this);
         cvHistoryTask.setOnClickListener(this);
         cvLogout.setOnClickListener(this);
         cvBedDelivered.setOnClickListener(this);
+        cvCheckUpdate.setOnClickListener(this);
     }
 
     @Override
@@ -99,6 +114,9 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
             case R.id.cv_bed_delivered:
                 postTest();
                 break;
+            case R.id.cv_check_update:
+                update();
+                break;
         }
     }
 
@@ -124,5 +142,59 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
         editor.apply();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         getActivity().finish();
+    }
+
+    private void update() {
+        DownloadInfo info = new DownloadInfo().setApkUrl("http://101.34.129.170:90/lianya.apk")
+                .setFileSize(31338250)
+                .setProdVersionCode(25)
+                .setProdVersionName("2.3.1")
+//                .setMd5Check("68919BF998C29DA3F5BD2C0346281AC0")
+                .setForceUpdateFlag(1)
+                .setUpdateLog("1、优化细节和体验，更加稳定\n2、引入大量优质用户\r\n3、修复已知bug\n4、风格修改");
+        AppUpdateUtils.getInstance()
+                .addMd5CheckListener(new MD5CheckListener() {
+                    @Override
+                    public void fileMd5CheckFail(String originMD5, String localMD5) {
+
+                    }
+
+                    @Override
+                    public void fileMd5CheckSuccess() {
+
+                    }
+                })//添加MD5检查更新
+                .addAppDownloadListener(new AppDownloadListener() {
+                    @Override
+                    public void downloading(int progress) {
+
+                    }
+
+                    @Override
+                    public void downloadFail(String msg) {
+
+                    }
+
+                    @Override
+                    public void downloadComplete(String path) {
+
+                    }
+
+                    @Override
+                    public void downloadStart() {
+
+                    }
+
+                    @Override
+                    public void reDownload() {
+
+                    }
+
+                    @Override
+                    public void pause() {
+
+                    }
+                })//添加文件下载监听
+                .checkUpdate(info);
     }
 }
