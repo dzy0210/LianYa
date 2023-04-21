@@ -6,10 +6,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
@@ -60,6 +57,7 @@ public class WorkerMainActivity extends RxBaseActivity {
                     application.abnormalityType.addAll(data.getAbnormalityType());
                     application.leaveType.clear();
                     application.leaveType.addAll(data.getLeaveType());
+                    application.workstation = data.getWorkstation();
                 }, throwable -> {});
     }
 }

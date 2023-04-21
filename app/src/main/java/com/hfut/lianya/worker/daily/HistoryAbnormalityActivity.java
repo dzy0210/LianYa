@@ -1,5 +1,6 @@
 package com.hfut.lianya.worker.daily;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -9,11 +10,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.AbnormalityAdapter;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Abnormality;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 
@@ -27,6 +28,7 @@ public class HistoryAbnormalityActivity extends RxBaseActivity {
     Toolbar toolbar;
     RecyclerView rvHistoryAbnormality;
     private List<Abnormality> list = new ArrayList<>();
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +68,7 @@ public class HistoryAbnormalityActivity extends RxBaseActivity {
     public void loadData() {
         super.loadData();
         RetrofitUtil.getAbnormalityAPI()
-                .getHistoryAbnormality(GlobalVariable.USERNO)
+                .getHistoryAbnormality(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(HttpRespondBody::getData)
                 .observeOn(AndroidSchedulers.mainThread())

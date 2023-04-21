@@ -9,20 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.AbnormalityAdapter;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Abnormality;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.RetrofitUtil;
 
 import java.util.ArrayList;

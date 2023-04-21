@@ -1,17 +1,12 @@
 package com.hfut.lianya.abnormalitymanager.dashboard;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,26 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.hfut.lianya.GlobalApplication;
-import com.hfut.lianya.LoginActivity;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.AbnormalityAdapter;
-import com.hfut.lianya.adapters.DoingTaskAdapter;
 import com.hfut.lianya.base.RxLazyFragment;
 import com.hfut.lianya.bean.Abnormality;
-import com.hfut.lianya.bean.Fkpb;
 import com.hfut.lianya.databinding.FragmentAbnormalityManagerDashboardBinding;
-import com.hfut.lianya.databinding.FragmentWorkerDashboardBinding;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
-import com.hfut.lianya.utils.DateUtil;
-import com.hfut.lianya.worker.dashboard.InstructionsActivity;
-import com.hfut.lianya.worker.dashboard.WorkerContinuousCaptureActivity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;

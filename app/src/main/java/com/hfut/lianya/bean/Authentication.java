@@ -5,6 +5,7 @@ public class Authentication {
     int userType;
     String userNo;
     String userName;
+    String workstation;
 
     public String getToken() {
         return token;
@@ -38,13 +39,11 @@ public class Authentication {
         this.userName = userName;
     }
 
-    @Override
-    public String toString() {
-        return "Authentication{" +
-                "token='" + token + '\'' +
-                ", userType=" + userType +
-                ", userNo='" + userNo + '\'' +
-                ", userName='" + userName + '\'' +
-                '}';
+    public String getWorkstation() {
+        return workstation;
+    }
+
+    public void setWorkstation(String workstation) {
+        this.workstation = workstation;
     }
 }

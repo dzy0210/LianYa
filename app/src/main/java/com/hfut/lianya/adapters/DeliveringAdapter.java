@@ -10,7 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.QuickViewHolder;
 import com.hfut.lianya.R;
 import com.hfut.lianya.bean.Deliveries;
-import com.hfut.lianya.bean.Fkpb;
 
 public class DeliveringAdapter extends BaseQuickAdapter<Deliveries, QuickViewHolder> {
 

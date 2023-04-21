@@ -2,9 +2,9 @@ package com.hfut.lianya.net.base;
 
 public class NetConstant {
     // base地址
-    public static final String BASE_URL = "http://192.168.1.110:9090";
+//    public static final String BASE_URL = "http://192.168.1.110:9090";
 //    public static final String BASE_URL = "http://114.213.213.67:9090";
-//    public static final String BASE_URL = "http://101.34.129.170:9090";
+    public static final String BASE_URL = "http://101.34.129.170:9090";
     /**
      * 用户接口
      */
@@ -42,14 +42,20 @@ public class NetConstant {
     public static final String START = BASE_URL + DASHBOARD + "/start";
     public static final String GET_WORKER_DOING_TASK = BASE_URL + DASHBOARD + "/doing";
     public static final String GET_PACKAGE_INFO = BASE_URL + DASHBOARD + "/get_package_info";
+    public static final String GET_MODEL_INFO = BASE_URL + DASHBOARD + "/get_model_info";
     public static final String GET_DELIVERING = BASE_URL + DASHBOARD + "/delivering";
     public static final String GET_FOR_DELIVER = BASE_URL + DASHBOARD + "/for_deliver";
     public static final String TAKE_TASK = BASE_URL +DASHBOARD + "/take_task";
+    public static final String TAKE_MODEL = BASE_URL +DASHBOARD + "/take_model";
     public static final String DELIVERED = BASE_URL + DASHBOARD + "/delivered";
-    public static final String BED_DELIVERED = BASE_URL + DASHBOARD + "/bed_delivered";
+    public static final String DELIVERED_MODEL = BASE_URL + DASHBOARD + "/delivered_model";
+    public static final String BED_DELIVERED = BASE_URL  + "/bed/bed_delivered";
     public static final String DONE_TASK = BASE_URL + DASHBOARD + "/done_task";
+    public static final String WORKER_DONE_TASK = BASE_URL + DASHBOARD + "/worker_done_task";
     public static final String DOING_TASK = BASE_URL + DASHBOARD + "/doing_task";
     public static final String TO_BE_DONE_TASK = BASE_URL + DASHBOARD + "/to_be_done_task";
+    public static final String HISTORY_TASK = BASE_URL + DASHBOARD + "/history_task";
+    public static final String WORKER_HISTORY_TASK = BASE_URL + DASHBOARD + "/worker_history_task";
 
     public static final String NOTIFICATION = "/notification";
     public static final String NOTIFICATION_NUM = BASE_URL + NOTIFICATION + "/num";

@@ -33,7 +33,7 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class CourierContinuousCaptureActivity extends RxBaseActivity {
+public class CourierCompleteContinuousCaptureActivity extends RxBaseActivity {
     private DecoratedBarcodeView barcodeView;
     private BeepManager beepManager;
     private Toolbar toolbar;
@@ -55,7 +55,7 @@ public class CourierContinuousCaptureActivity extends RxBaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_courier_continuous_capture;
+        return R.layout.activity_courier_complete_continuous_capture;
     }
 
     @Override
@@ -94,29 +94,27 @@ public class CourierContinuousCaptureActivity extends RxBaseActivity {
         public void possibleResultPoints(List<ResultPoint> resultPoints) {
         }
     };
-
     private void checkResult(String result) {
         if(result.toCharArray()[0] >= '0' && result.toCharArray()[0] <= '9') {
             getPackageInfo(result);
-        } else if(result.startsWith("MQ")) {
+        } else if(result.startsWith("MQ")){
             getModelInfo(result);
-        } else {
-            Toast.makeText(this, "种类不对！", Toast.LENGTH_SHORT).show();
         }
     }
     public void dialog(Fkpb packageInfo) {
-        if(packageInfo.getState() == 5) {
-            String s = "本包由" + packageInfo.getCurrentWorkstation() + "派送到" + packageInfo.getNextStation() + "确认接单？";
-            new MaterialAlertDialogBuilder(this).setMessage(s).setPositiveButton("确认", (dialogInterface, i) -> {
-                take(packageInfo.getPackageId(), application.getSharedPreferences("user", MODE_PRIVATE).getString("userNo", ""));
-                barcodeView.resume();
-                dialogInterface.dismiss();
-            }).setNegativeButton("取消", (dialogInterface, i) -> {
-                    barcodeView.resume();
-                    dialogInterface.dismiss();
-                }).show();
-        } else if(packageInfo.getState() == 6) {
-            String s = "本包由" + packageInfo.getCurrentWorkstation() + "派送到" + packageInfo.getNextStation() + "若已到达指定位置，请使用送达扫描。";
+        if(packageInfo.getState() != 6) {
+            Toast.makeText(this, "状态有误！", Toast.LENGTH_SHORT).show();
+        }
+        else if(packageInfo.getState() == 6 && currentWorkstation.equals(packageInfo.getNextWorkStation())) {
+            new MaterialAlertDialogBuilder(this).setMessage("确认送达？").setPositiveButton("确认", (dialogInterface, i) -> {
+            delivered(packageInfo.getPackageId(), currentWorkstation);
+            barcodeView.resume();
+            dialogInterface.dismiss();}).setNegativeButton("取消", (dialogInterface, i) -> {
+            barcodeView.resume();
+            dialogInterface.dismiss();
+            }).show();
+        } else if(packageInfo.getStatus() == 6 && !currentWorkstation.equals(packageInfo.getNextStation())) {
+            String s = "本包由" + packageInfo.getCurrentWorkstation() + "派送到" + packageInfo.getNextStation() + "若已到达指定位置，请先扫描目标工作台上的二维码。";
             new MaterialAlertDialogBuilder(this).setMessage(s).setPositiveButton("确认", (dialogInterface, i) -> {
                 barcodeView.resume();
                 dialogInterface.dismiss();
@@ -126,18 +124,19 @@ public class CourierContinuousCaptureActivity extends RxBaseActivity {
         }
     }
     public void dialog1(Moldqrcode modelInfo) {
-        if(modelInfo.getState() == 5) {
-            String s = "本模板由" + modelInfo.getCurrentPosition() + "派送到" + modelInfo.getNextPosition() + "确认接单？";
-            new MaterialAlertDialogBuilder(this).setMessage(s).setPositiveButton("确认", (dialogInterface, i) -> {
-                take(modelInfo.getBarCodeN(), application.getSharedPreferences("user", MODE_PRIVATE).getString("userNo", ""));
+        if(modelInfo.getState() != 6) {
+            Toast.makeText(this, "状态有误！", Toast.LENGTH_SHORT).show();
+        }
+        else if(modelInfo.getState() == 6 && currentWorkstation.equals(modelInfo.getNextPosition())) {
+            new MaterialAlertDialogBuilder(this).setMessage("确认送达？").setPositiveButton("确认", (dialogInterface, i) -> {
+                deliveredModel(modelInfo.getBarCodeN(), currentWorkstation);
                 barcodeView.resume();
-                dialogInterface.dismiss();
-            }).setNegativeButton("取消", (dialogInterface, i) -> {
+                dialogInterface.dismiss();}).setNegativeButton("取消", (dialogInterface, i) -> {
                 barcodeView.resume();
                 dialogInterface.dismiss();
             }).show();
-        } else if(modelInfo.getState() == 6) {
-            String s = "本包由" + modelInfo.getCurrentPosition() + "派送到" + modelInfo.getNextPosition() + "若已到达指定位置，请使用送达扫描。";
+        } else if(modelInfo.getState() == 6 && !currentWorkstation.equals(modelInfo.getNextPosition())) {
+            String s = "本包由" + modelInfo.getCurrentPosition() + "派送到" + modelInfo.getNextPosition() + "若已到达指定位置，请先扫描目标工作台上的二维码。";
             new MaterialAlertDialogBuilder(this).setMessage(s).setPositiveButton("确认", (dialogInterface, i) -> {
                 barcodeView.resume();
                 dialogInterface.dismiss();
@@ -180,7 +179,6 @@ public class CourierContinuousCaptureActivity extends RxBaseActivity {
                     dialog(respondBody.getData());
                 }, throwable -> {});
     }
-
     public void getModelInfo(String modelId) {
         RetrofitUtil.getDashboardAPI()
                 .getModelInfo(modelId)
@@ -191,9 +189,9 @@ public class CourierContinuousCaptureActivity extends RxBaseActivity {
                     dialog1(respondBody.getData());
                 }, throwable -> {});
     }
-    private void take(String packageId, String userNo) {
+    private void delivered(String packageId, String currentWorkstation) {
         RetrofitUtil.getDashboardAPI()
-                .takeTask(packageId, userNo)
+                .delivered(packageId, currentWorkstation)
                 .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -201,12 +199,24 @@ public class CourierContinuousCaptureActivity extends RxBaseActivity {
                     if (respondBody.getCode() != 200) {
                         Toast.makeText(getApplicationContext(), "系统错误！", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "接单成功！", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "已送达！", Toast.LENGTH_LONG).show();
                     }
                 }, throwable -> {});
     }
-
-
+    private void deliveredModel(String modelId, String currentWorkstation) {
+        RetrofitUtil.getDashboardAPI()
+                .deliveredModel(modelId, currentWorkstation)
+                .compose(bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(respondBody->{
+                    if (respondBody.getCode() != 200) {
+                        Toast.makeText(getApplicationContext(), "系统错误！", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "已送达！", Toast.LENGTH_LONG).show();
+                    }
+                }, throwable -> {});
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return barcodeView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);

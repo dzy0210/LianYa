@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,24 +20,20 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Abnormality;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.utils.DateUtil;
-
 
 import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -57,11 +52,13 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
     EditText etAbnormalityDesc;
     TextView tvCancelAbnormality;
     TextView tvAbnormalityManage;
+    TextView tvWorkstation;
     Calendar now= Calendar.getInstance();
     String dateTime = DateUtil.dateToString(now.getTime(), DateUtil.FORMAT_TIMESTAMP);
     TimePickerView pvAbnormalityTime;
     int id = 0;
     SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
+    GlobalApplication application = GlobalApplication.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,13 +84,14 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
         llPackageId = findViewById(R.id.ll_package_id);
         tvCancelAbnormality = findViewById(R.id.tv_cancel_abnormality);
         etAbnormalityDesc = findViewById(R.id.et_abnormality_desc);
+        tvWorkstation = findViewById(R.id.tv_abnormality_workstation);
         tvAbnormalityTime.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
         tvCancelAbnormality.setOnClickListener(this);
         tvAbnormalityTime.setText(dateTime);
-        tvSender.setText(GlobalVariable.USERNAME);
-        tvBlemishPackageId.setText(GlobalVariable.PACKAGEID);
-
+        tvSender.setText(sp.getString("userName", ""));
+        tvBlemishPackageId.setText(GlobalApplication.getInstance().packageId);
+        tvWorkstation.setText(application.workstation);
         initSpinner();
         Intent intent = getIntent();
         if(intent.getStringExtra("sendTime") != null) {
@@ -106,6 +104,7 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
             String abnormalityTime = intent.getStringExtra("sendTime");
             String solveTime = intent.getStringExtra("solveTime");
 
+
             spAbnormalityType.setSelectedIndex(type);
             tvReceiver.setText(receiver);
             tvAbnormalityTime.setText(abnormalityTime);
@@ -113,6 +112,7 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
             btnSubmit.setVisibility(View.GONE);
             etAbnormalityDesc.setText(abnormalityDesc);
             tvAbnormalityManage.setText("异常详情");
+
 
             spAbnormalityType.setEnabled(false);
             tvReceiver.setEnabled(false);
@@ -160,7 +160,7 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
         abnormality.setSender(sp.getString("userNo", ""));
         abnormality.setSenderNo(sp.getString("userName", ""));
         abnormality.setReceiver(tvReceiver.getText().toString());
-        abnormality.setReceiverNo(GlobalVariable.ABNORMALITY_RESPONDER_No[spAbnormalityType.getSelectedIndex()]);
+        abnormality.setReceiverNo(application.abnormalityResponder.get(spAbnormalityType.getSelectedIndex()));
 
         RetrofitUtil.getAbnormalityAPI()
                 .submit(abnormality)
@@ -208,13 +208,12 @@ public class NewAbnormalityActivity extends RxBaseActivity implements View.OnCli
         }
     }
     private void initSpinner() {
-        List<String> exceptionType = Arrays.asList(GlobalVariable.ABNORMALITY_TYPE);
-        spAbnormalityType.attachDataSource(exceptionType);
-        tvReceiver.setText(GlobalVariable.ABNORMALITY_RESPONDER[0]);
+        spAbnormalityType.attachDataSource(application.abnormalityType);
+        tvReceiver.setText(application.abnormalityResponder.get(0));
         spAbnormalityType.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
             public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
-                tvReceiver.setText(GlobalVariable.ABNORMALITY_RESPONDER[position]);
+                tvReceiver.setText(application.abnormalityResponder.get(position));
                 if(position != 0) {
                     llPackageId.setVisibility(View.GONE);
                 } else {

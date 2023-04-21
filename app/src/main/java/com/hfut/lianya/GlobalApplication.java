@@ -2,7 +2,6 @@ package com.hfut.lianya;
 
 import android.app.Application;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +23,9 @@ public class GlobalApplication extends Application {
     public boolean isPause = false;
     public long pauseTime = 0;
     public long totalPauseTime = 0;
+    public String packageId;
+    public String[] IS_COMPLETE = {"完成剩余包", "不完成剩余包"};
+    public String workstation;
 
     @Override
     public void onCreate() {

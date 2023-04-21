@@ -1,11 +1,11 @@
 package com.hfut.lianya.bean;
 
 import java.util.List;
-import java.util.Map;
 public class InitData {
     List<String> abnormalityType;
     List<String> abnormalityResponder;
     List<String> leaveType;
+    String workstation;
 
     public List<String> getAbnormalityType() {
         return abnormalityType;
@@ -31,12 +31,11 @@ public class InitData {
         this.leaveType = leaveType;
     }
 
-    @Override
-    public String toString() {
-        return "InitData{" +
-                "abnormalityType=" + abnormalityType +
-                ", abnormalityResponder=" + abnormalityResponder +
-                ", leaveType=" + leaveType +
-                '}';
+    public String getWorkstation() {
+        return workstation;
+    }
+
+    public void setWorkstation(String workstation) {
+        this.workstation = workstation;
     }
 }

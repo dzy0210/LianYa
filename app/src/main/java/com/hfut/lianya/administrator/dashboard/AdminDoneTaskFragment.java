@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.WorkerDoneTaskAdapter;
 import com.hfut.lianya.base.RxLazyFragment;
@@ -16,6 +18,8 @@ import com.hfut.lianya.bean.WorkerDoneTask;
 import com.hfut.lianya.databinding.FragmentAdminDoneTaskBinding;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
+import com.hfut.lianya.worker.home.WorkerHistoryTaskActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,14 +77,15 @@ public class AdminDoneTaskFragment extends RxLazyFragment {
     protected void initRecyclerView() {
         super.initRecyclerView();
         rvDoneTask = binding.rvDoneTask;
-        WorkerDoneTaskAdapter adapter = new WorkerDoneTaskAdapter(list, doneTask -> {
+        WorkerDoneTaskAdapter adapter = new WorkerDoneTaskAdapter();
+        adapter.submitList(list);
+        adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
             Intent intent = new Intent(getActivity(), AdminWorkerDoneTaskActivity.class);
-            intent.putExtra("workerNo", doneTask.getWorkerNo());
-            intent.putExtra("workerName", doneTask.getWorkerName());
+            intent.putExtra("workerNo", list.get(i).getWorkerNo());
+            intent.putExtra("workerName", list.get(i).getWorkerName());
             startActivity(intent);
         });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-        rvDoneTask.setLayoutManager(linearLayoutManager);
+        rvDoneTask.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rvDoneTask.setAdapter(adapter);
     }
 

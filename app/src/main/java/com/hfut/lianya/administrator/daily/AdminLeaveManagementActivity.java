@@ -1,22 +1,20 @@
 package com.hfut.lianya.administrator.daily;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.LeaveRequestAdapter;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Leave;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 
@@ -30,11 +28,11 @@ public class AdminLeaveManagementActivity extends RxBaseActivity {
     Toolbar toolbar;
     RecyclerView rvLeaveRequest;
     List<Leave> list = new ArrayList<>();
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", MODE_PRIVATE);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolBar();
-        loadData();
         initViews(savedInstanceState);
     }
 
@@ -46,6 +44,12 @@ public class AdminLeaveManagementActivity extends RxBaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
     }
 
     @Override
@@ -68,8 +72,9 @@ public class AdminLeaveManagementActivity extends RxBaseActivity {
     @Override
     public void loadData() {
         super.loadData();
+        list.clear();
         RetrofitUtil.getLeaveAPI()
-                .getDealingLeavesByDealer(GlobalVariable.USERNO)
+                .getDealingLeavesByDealer(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(HttpRespondBody::getData)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +98,14 @@ public class AdminLeaveManagementActivity extends RxBaseActivity {
         adapter.submitList(list);
         adapter.setOnItemClickListener((baseQuickAdapter, view, i) -> {
             Intent intent = new Intent(getApplicationContext(), AdminDealLeaveActivity.class);
-//                intent.putExtra("leave", );
+            intent.putExtra("id", list.get(i).getId());
+            intent.putExtra("workerNo", list.get(i).getSenderNo());
+            intent.putExtra("workerName", list.get(i).getSender());
+            intent.putExtra("desc", list.get(i).getLeaveDesc());
+            intent.putExtra("startTime", list.get(i).getStartTime());
+            intent.putExtra("endTime", list.get(i).getEndTime());
+            intent.putExtra("type", list.get(i).getLeaveType());
+
             startActivity(intent);
         });
         rvLeaveRequest = findViewById(R.id.rv_leave_request);

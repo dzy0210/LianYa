@@ -1,6 +1,7 @@
 package com.hfut.lianya.administrator.daily;
 
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,14 +18,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Leave;
 import com.hfut.lianya.bean.WorkStation;
 import com.hfut.lianya.bean.WorkerInfo;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.utils.DateUtil;
@@ -34,7 +34,6 @@ import org.angmarch.views.NiceSpinner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -53,6 +52,8 @@ public class AdminLeaveForWorkerActivity extends RxBaseActivity implements View.
     TimePickerView pvBeginTime, pvEndTime;
     List<WorkerInfo> workerInfoList = new ArrayList<>();
     List<WorkStation> workStationList = new ArrayList<>();
+    GlobalApplication application = GlobalApplication.getInstance();
+    SharedPreferences sp = application.getSharedPreferences("user", MODE_PRIVATE);
     Calendar now= Calendar.getInstance();
     String dateTime = DateUtil.dateToString(now.getTime(), DateUtil.FORMAT_TIMESTAMP);
     @Override
@@ -105,7 +106,7 @@ public class AdminLeaveForWorkerActivity extends RxBaseActivity implements View.
     }
 
     private void loadWorkerNameSpinner() {
-        spWorkerName.attachDataSource(Arrays.asList(GlobalVariable.WORKER_NAME));
+//        spWorkerName.attachDataSource(Arrays.asList(application.WORKER_NAME));
     }
     private void initTimePicker1() {//Dialog 模式下，在底部弹出
         pvBeginTime = new TimePickerBuilder(this, (date, v) -> tvBeginTime.setText(DateUtil.dateToString(date, DateUtil.FORMAT_TIMESTAMP)))
@@ -170,10 +171,10 @@ public class AdminLeaveForWorkerActivity extends RxBaseActivity implements View.
         }
     }
     private void initSpinner() {
-        spWorkerName.attachDataSource(Arrays.asList(GlobalVariable.WORKER_NAME));
-        spWorkstation.attachDataSource(Arrays.asList(GlobalVariable.AREA));
-        spLeaveType.attachDataSource(Arrays.asList(GlobalVariable.LEAVE_TYPE));
-        spIsComplete.attachDataSource(Arrays.asList(GlobalVariable.IS_COMPLETE));
+//        spWorkerName.attachDataSource(Arrays.asList(application.WORKER_NAME));
+//        spWorkstation.attachDataSource(Arrays.asList(application.AREA));
+//        spLeaveType.attachDataSource(Arrays.asList(application.LEAVE_TYPE));
+//        spIsComplete.attachDataSource(Arrays.asList(application.IS_COMPLETE));
     }
 
     private void newLeave() {

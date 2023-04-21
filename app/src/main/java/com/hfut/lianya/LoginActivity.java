@@ -5,10 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -95,6 +92,7 @@ public class LoginActivity extends RxBaseActivity {
                         editor.putBoolean("isLogged", true);
                         editor.putString("userNo", respond.getData().getUserNo());
                         editor.putString("userName", respond.getData().getUserName());
+                        editor.putString("workstation", respond.getData().getWorkstation());
                         editor.apply();
                         redirect(respond.getData().getUserType());
                     } else {

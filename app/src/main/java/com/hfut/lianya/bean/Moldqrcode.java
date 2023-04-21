@@ -1,23 +1,17 @@
 package com.hfut.lianya.bean;
 
-public class ModelQrcode {
-    Integer state;
-    String barCodeN;
-    String procTix2;
-    String sizee;
-    Integer procSeq;
-    Integer qty;
-    String currentPosition;
-    String nextPosition;
-    String courier;
 
-    public Integer getState() {
-        return state;
-    }
 
-    public void setState(Integer state) {
-        this.state = state;
-    }
+public class Moldqrcode {
+    private String barCodeN;
+    private String procTix2;
+    private String sizee;
+    private Integer procSeq;
+    private Integer qty;
+    private String currentPosition;
+    private String nextPosition;
+    private Integer state;
+    private String courier;
 
     public String getBarCodeN() {
         return barCodeN;
@@ -75,6 +69,14 @@ public class ModelQrcode {
         this.nextPosition = nextPosition;
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     public String getCourier() {
         return courier;
     }
@@ -85,15 +87,15 @@ public class ModelQrcode {
 
     @Override
     public String toString() {
-        return "ModelQrcode{" +
-                "state=" + state +
-                ", barCodeN='" + barCodeN + '\'' +
+        return "Moldqrcode{" +
+                "barCodeN='" + barCodeN + '\'' +
                 ", procTix2='" + procTix2 + '\'' +
                 ", sizee='" + sizee + '\'' +
                 ", procSeq=" + procSeq +
                 ", qty=" + qty +
                 ", currentPosition='" + currentPosition + '\'' +
                 ", nextPosition='" + nextPosition + '\'' +
+                ", state=" + state +
                 ", courier='" + courier + '\'' +
                 '}';
     }

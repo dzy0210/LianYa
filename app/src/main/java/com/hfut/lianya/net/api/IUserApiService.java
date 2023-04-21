@@ -7,7 +7,6 @@ import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.base.NetConstant;
 
 import io.reactivex.rxjava3.core.Observable;
-import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -22,7 +21,7 @@ public interface IUserApiService {
 
     @FormUrlEncoded
     @POST(NetConstant.CLOCK_IN)
-    Observable<HttpRespondBody> clockIn(@Field("userNo") String userNo, @Field("time") String time);
+    Observable<HttpRespondBody> clockIn(@Field("userNo") String userNo, @Field("time") String time, @Field("workstation") String workstation);
 
     @FormUrlEncoded
     @POST(NetConstant.KNOCK_OFF)

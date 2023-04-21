@@ -3,9 +3,7 @@ package com.hfut.lianya.administrator.home;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +22,13 @@ import com.hfut.lianya.LoginActivity;
 import com.hfut.lianya.R;
 import com.hfut.lianya.administrator.dashboard.AdminHistoryTaskActivity;
 import com.hfut.lianya.base.RxLazyFragment;
-import com.hfut.lianya.bean.Deliveries;
 import com.hfut.lianya.courier.dashboard.CourierBedContinuousCaptureActivity;
 import com.hfut.lianya.databinding.FragmentAdminHomeBinding;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.worker.daily.HistoryAbnormalityActivity;
 import com.hfut.lianya.worker.daily.HistoryLeaveActivity;
+import com.hfut.lianya.worker.home.WorkerHistoryTaskActivity;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -45,9 +43,11 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
     private CardView cvLogout;
     private CardView cvBedDelivered;
     private CardView cvCheckUpdate;
+    private CardView cvHistoryEfficiency;
     private TextView tvUserNo;
     private TextView tvUserName;
     SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", Context.MODE_PRIVATE);
+    int userType = sp.getInt("userType", 0);
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_admin_home;
@@ -74,6 +74,7 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
         cvLogout = binding.cvLogout;
         cvBedDelivered = binding.cvBedDelivered;
         cvCheckUpdate = binding.cvCheckUpdate;
+        cvHistoryEfficiency = binding.cvHistoryEfficiency;
         tvUserNo = binding.tvWorkerNo;
         tvUserName = binding.tvWorkerName;
         tvUserName.setText(sp.getString("userName", ""));
@@ -85,6 +86,18 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
         cvLogout.setOnClickListener(this);
         cvBedDelivered.setOnClickListener(this);
         cvCheckUpdate.setOnClickListener(this);
+        cvHistoryEfficiency.setOnClickListener(this);
+        cvBedDelivered.setVisibility(View.GONE);
+        if(userType == 0) {
+            cvBedDelivered.setVisibility(View.GONE);
+        } else if(userType == 1) {
+            cvHistoryAbnormality.setVisibility(View.GONE);
+            cvHistoryLeave.setVisibility(View.GONE);
+            cvHistoryTask.setVisibility(View.GONE);
+            cvHistoryEfficiency.setVisibility(View.GONE);
+        } else if(userType == 2) {
+            cvBedDelivered.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -102,8 +115,13 @@ public class AdminHomeFragment extends RxLazyFragment implements View.OnClickLis
             case R.id.cv_history_abnormality:
                 startActivity(new Intent(getActivity(), HistoryAbnormalityActivity.class));
                 break;
-            case R.id.btn_history_task:
-                startActivity(new Intent(getActivity(), AdminHistoryTaskActivity.class));
+            case R.id.cv_history_task: {
+                if(userType == 0) {
+                    startActivity(new Intent(getActivity(), WorkerHistoryTaskActivity.class));
+                } else if (userType == 2) {
+                    startActivity(new Intent(getActivity(), AdminHistoryTaskActivity.class));
+                }
+            }
                 break;
             case R.id.cv_history_leave:
                 startActivity(new Intent(getActivity(), HistoryLeaveActivity.class));

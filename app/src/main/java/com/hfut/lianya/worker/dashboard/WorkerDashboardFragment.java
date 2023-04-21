@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.LoginActivity;
@@ -30,7 +28,6 @@ import com.hfut.lianya.adapters.DoingTaskAdapter;
 import com.hfut.lianya.base.RxLazyFragment;
 import com.hfut.lianya.bean.Fkpb;
 import com.hfut.lianya.databinding.FragmentWorkerDashboardBinding;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.utils.DateUtil;
@@ -38,8 +35,6 @@ import com.hfut.lianya.utils.DateUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -140,7 +135,7 @@ public class WorkerDashboardFragment extends RxLazyFragment implements View.OnCl
 
     public void getPieceRateWage() {
         RetrofitUtil.getDashboardAPI()
-                .getPieceRateWage(GlobalVariable.USERNO)
+                .getPieceRateWage(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(wage -> wage.getData())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -151,7 +146,7 @@ public class WorkerDashboardFragment extends RxLazyFragment implements View.OnCl
     }
     public void getHourlyWage() {
         RetrofitUtil.getDashboardAPI()
-                .getHourlyWage(GlobalVariable.USERNO)
+                .getHourlyWage(sp.getString("userNo", ""))
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(wage -> wage.getData())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.WorkerDoneTaskDetailAdapter;
 import com.hfut.lianya.base.RxBaseActivity;
+import com.hfut.lianya.bean.Finish;
 import com.hfut.lianya.bean.Fkpb;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
@@ -28,7 +29,7 @@ public class AdminWorkerDoneTaskActivity extends RxBaseActivity implements View.
     String workerNo;
     String workerName;
     RecyclerView rvWorkerDoneTask;
-    List<Fkpb> list = new ArrayList<>();
+    List<Finish> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,7 @@ public class AdminWorkerDoneTaskActivity extends RxBaseActivity implements View.
     public void loadData() {
         super.loadData();
         RetrofitUtil.getDashboardAPI()
-                .getTask(workerNo, '4')
+                .getWorkerDoneTask(workerNo)
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(HttpRespondBody::getData)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -89,9 +90,8 @@ public class AdminWorkerDoneTaskActivity extends RxBaseActivity implements View.
     public void initRecyclerView() {
         super.initRecyclerView();
         rvWorkerDoneTask = findViewById(R.id.rv_worker_done_task);
-        WorkerDoneTaskDetailAdapter adapter = new WorkerDoneTaskDetailAdapter(list, packageCirculation -> {
-
-        });
+        WorkerDoneTaskDetailAdapter adapter = new WorkerDoneTaskDetailAdapter();
+        adapter.submitList(list);
         rvWorkerDoneTask.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rvWorkerDoneTask.setAdapter(adapter);
     }

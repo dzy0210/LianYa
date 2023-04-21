@@ -8,7 +8,6 @@ import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -22,7 +21,7 @@ public interface ILeaveApiService {
     Observable<HttpRespondBody> cancelLeave(@Body Leave leave);
 
     @POST(NetConstant.DEAL_LEAVE)
-    Observable<HttpRespondBody> dealLeave(@Body Leave leave, @Query("operate") char operate);
+    Observable<HttpRespondBody> dealLeave(@Body Leave leave);
 
     @GET(NetConstant.GET_DEALING_LEAVES)
     Observable<HttpRespondBody<List<Leave>>>getDealingLeaves(@Query("userNo") String userNo);

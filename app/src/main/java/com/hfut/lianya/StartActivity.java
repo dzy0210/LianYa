@@ -1,32 +1,24 @@
 package com.hfut.lianya;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import com.cretin.www.cretinautoupdatelibrary.interfaces.AppDownloadListener;
-import com.cretin.www.cretinautoupdatelibrary.interfaces.MD5CheckListener;
-import com.cretin.www.cretinautoupdatelibrary.model.DownloadInfo;
+import androidx.annotation.NonNull;
+
 import com.cretin.www.cretinautoupdatelibrary.model.TypeConfig;
 import com.cretin.www.cretinautoupdatelibrary.model.UpdateConfig;
 import com.cretin.www.cretinautoupdatelibrary.utils.AppUpdateUtils;
-import com.cretin.www.cretinautoupdatelibrary.utils.SSLUtils;
 import com.hfut.lianya.abnormalitymanager.AbnormalityManagerMainActivity;
 import com.hfut.lianya.administrator.AdminMainActivity;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.courier.CourierMainActivity;
-import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.utils.OkHttp3Connection;
 import com.hfut.lianya.worker.WorkerMainActivity;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 
 public class StartActivity extends RxBaseActivity {

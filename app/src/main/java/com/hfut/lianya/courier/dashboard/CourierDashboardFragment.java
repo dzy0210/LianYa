@@ -4,7 +4,6 @@ package com.hfut.lianya.courier.dashboard;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,12 +17,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.hfut.lianya.LoginActivity;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.PagerAdapter;
 import com.hfut.lianya.base.RxLazyFragment;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.hfut.lianya.databinding.FragmentCourierDashboardBinding;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class CourierDashboardFragment extends RxLazyFragment implements View.OnC
     private TabLayout tabLayout;
     private ViewPager2 viewPager2;
     private LinearLayout llScan;
-    private LinearLayout llPause;
+    private LinearLayout llComplete;
     private LinearLayout llStop;
     private LinearLayout llBegScan;
     int flag = 0;
@@ -67,10 +66,10 @@ public class CourierDashboardFragment extends RxLazyFragment implements View.OnC
         llScan.setOnClickListener(this);
         tabLayout = binding.tab;
         viewPager2 = binding.vp;
-        llPause = binding.llPause;
+        llComplete = binding.llComplete;
         llBegScan = binding.llBedScan;
         llBegScan.setOnClickListener(this);
-        llPause.setOnClickListener(this);
+        llComplete.setOnClickListener(this);
         llStop = binding.llStop;
         llStop.setOnClickListener(this);
         list.add(CourierReadyFragment.newInstance());
@@ -94,6 +93,9 @@ public class CourierDashboardFragment extends RxLazyFragment implements View.OnC
                 break;
             case R.id.ll_bed_scan:
                 bedScan();
+                break;
+            case R.id.ll_complete:
+                completeScan();
                 break;
 
         }
@@ -123,6 +125,10 @@ public class CourierDashboardFragment extends RxLazyFragment implements View.OnC
     }
     public void bedScan() {//连续扫码功能
         Intent intent = new Intent(getContext(), CourierBedContinuousCaptureActivity.class);
+        startActivity(intent);
+    }
+    public void completeScan() {
+        Intent intent = new Intent(getContext(), CourierCompleteContinuousCaptureActivity.class);
         startActivity(intent);
     }
 }

@@ -1,6 +1,7 @@
 package com.hfut.lianya.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.ViewGroup;
 
@@ -9,11 +10,14 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.QuickViewHolder;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.bean.Leave;
 
+import javax.microedition.khronos.opengles.GL;
+
 public class LeaveRequestAdapter extends BaseQuickAdapter<Leave, QuickViewHolder> {
+    GlobalApplication application = GlobalApplication.getInstance();
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable Leave leave) {
         String state = "";
@@ -37,7 +41,7 @@ public class LeaveRequestAdapter extends BaseQuickAdapter<Leave, QuickViewHolder
         }
         quickViewHolder.setText(R.id.tv_leave_state, state);
         quickViewHolder.setTextColor(R.id.tv_leave_state, color);
-        quickViewHolder.setText(R.id.tv_leave_type, GlobalVariable.LEAVE_TYPE[leave.getLeaveType()]);
+        quickViewHolder.setText(R.id.tv_leave_type, application.leaveType.get(leave.getLeaveType()));
         quickViewHolder.setText(R.id.tv_leave_start_time, leave.getStartTime());
         quickViewHolder.setText(R.id.tv_leave_end_time, leave.getEndTime());
     }

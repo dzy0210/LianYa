@@ -10,28 +10,19 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
-import com.hfut.lianya.bean.Leave;
-import com.hfut.lianya.net.HttpRespondBody;
-import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.utils.DateUtil;
 
 import org.angmarch.views.NiceSpinner;
 
 import java.util.Calendar;
-import java.util.Date;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AdminSecondmentManagementActivity extends RxBaseActivity implements View.OnClickListener {
     Toolbar toolbar;

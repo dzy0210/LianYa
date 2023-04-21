@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxLazyFragment;

@@ -2,7 +2,6 @@ package com.hfut.lianya.worker.dashboard;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import com.hfut.lianya.Permission;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
 import com.hfut.lianya.bean.Fkpb;
-import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 import com.hfut.lianya.utils.DateUtil;
 import com.hfut.lianya.utils.QRCodeUtil;
@@ -35,7 +33,6 @@ import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -116,8 +113,8 @@ public class WorkerContinuousCaptureActivity extends RxBaseActivity {
         public void barcodeResult(BarcodeResult result) {
             barcodeView.pause();
             if(QRCodeUtil.getCodeType(result.getText()).equals("S") ) {
-                new MaterialAlertDialogBuilder(getApplicationContext()).setMessage("当前工作台为"+result.getText()+"确认在此打卡？").setPositiveButton("确定", (dialogInterface, i) -> {
-                    clockIn();
+                new MaterialAlertDialogBuilder(WorkerContinuousCaptureActivity.this).setMessage("当前工作台为"+result.getText()+"确认在此打卡？").setPositiveButton("确定", (dialogInterface, i) -> {
+                    clockIn(result.getText());
                     barcodeView.resume();
                     dialogInterface.dismiss();
                 }).setNegativeButton("取消", (dialogInterface, i) -> {
@@ -136,11 +133,11 @@ public class WorkerContinuousCaptureActivity extends RxBaseActivity {
         }
     };
 
-    private void clockIn() {
+    private void clockIn(String result) {
         String time = DateUtil.getCurrentTime(DateUtil.FORMAT_TIME);
 
         RetrofitUtil.getUserAPI()
-                .clockIn(sharedPreferences.getString("userNo", ""), time)
+                .clockIn(sharedPreferences.getString("userNo", ""), time, result)
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(respondBody -> {
@@ -148,6 +145,7 @@ public class WorkerContinuousCaptureActivity extends RxBaseActivity {
                         Toast.makeText(getApplicationContext(), respondBody.getMsg(), Toast.LENGTH_SHORT).show();
                     }
                     finishTask();
+                    application.workstation = result;
                 }, throwable -> {});
     }
 

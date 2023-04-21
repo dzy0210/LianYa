@@ -55,6 +55,7 @@ public class AdminDailyManagementFragment extends RxLazyFragment implements View
         cvSecondmentManagement.setOnClickListener(this);
         cvLeaveForWorker.setOnClickListener(this);
         cvLackManagement.setOnClickListener(this);
+        cvLeaveForWorker.setVisibility(View.GONE);
     }
 
     @Override

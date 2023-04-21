@@ -9,12 +9,13 @@ import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.QuickViewHolder;
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.bean.Abnormality;
-import com.hfut.lianya.global.GlobalVariable;
 
 public class AbnormalityAdapter extends BaseQuickAdapter<Abnormality, QuickViewHolder> {
 
+    GlobalApplication globalApplication = GlobalApplication.getInstance();
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable Abnormality abnormality) {
 //        quickViewHolder.setText(R.id.tv_abnormality_sender, abnormality.getSender());
@@ -52,7 +53,7 @@ public class AbnormalityAdapter extends BaseQuickAdapter<Abnormality, QuickViewH
         }
         quickViewHolder.setText(R.id.tv_abnormality_state, state);
         quickViewHolder.setTextColor(R.id.tv_abnormality_state, color);
-        quickViewHolder.setText(R.id.tv_abnormality_type, GlobalVariable.ABNORMALITY_TYPE[abnormality.getAbnormalityType()]);
+        quickViewHolder.setText(R.id.tv_abnormality_type, globalApplication.abnormalityType.get(abnormality.getAbnormalityType()));
 }
 
     @NonNull

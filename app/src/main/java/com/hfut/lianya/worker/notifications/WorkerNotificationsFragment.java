@@ -1,5 +1,7 @@
 package com.hfut.lianya.worker.notifications;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.adapters.NotificationAdapter;
 import com.hfut.lianya.base.RxLazyFragment;
 import com.hfut.lianya.bean.Notification;
 import com.hfut.lianya.databinding.FragmentWorkerNotificationsBinding;
-import com.hfut.lianya.global.GlobalVariable;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
 
@@ -32,7 +34,7 @@ public class WorkerNotificationsFragment extends RxLazyFragment {
     private List<Notification> list ;
     private RecyclerView rvNotification;
     private NotificationAdapter adapter;
-
+    SharedPreferences sp = GlobalApplication.getInstance().getSharedPreferences("user", Context.MODE_PRIVATE);
     @Override
     public int getLayoutResId() {
         return R.layout.fragment_worker_notifications;
@@ -56,7 +58,7 @@ public class WorkerNotificationsFragment extends RxLazyFragment {
     protected void loadData() {
         super.loadData();
         RetrofitUtil.getNotificationAPI()
-                .getNotification(GlobalVariable.USERNO, '1', '0')
+                .getNotification(sp.getString("userNo", ""), '1', '0')
                 .compose(bindToLifecycle()).subscribeOn(Schedulers.io())
                 .map(HttpRespondBody::getData)
                 .observeOn(AndroidSchedulers.mainThread())

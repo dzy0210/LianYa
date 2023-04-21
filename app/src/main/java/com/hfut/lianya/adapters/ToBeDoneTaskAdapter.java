@@ -14,7 +14,7 @@ import com.hfut.lianya.bean.Fkpb;
 public class ToBeDoneTaskAdapter extends BaseQuickAdapter<Fkpb, QuickViewHolder> {
     @Override
     protected void onBindViewHolder(@NonNull QuickViewHolder quickViewHolder, int i, @Nullable Fkpb fkpb) {
-        quickViewHolder.setText(R.id.tv_segment_id, fkpb.getSegment());
+        quickViewHolder.setText(R.id.tv_segment_id, fkpb.getSegment()+"");
         quickViewHolder.setText(R.id.tv_line, fkpb.getLine());
         quickViewHolder.setText(R.id.tv_package_id, fkpb.getPackageId());
         quickViewHolder.setText(R.id.tv_area, fkpb.getRegion());

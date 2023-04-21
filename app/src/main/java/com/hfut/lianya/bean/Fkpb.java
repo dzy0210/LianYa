@@ -29,6 +29,7 @@ public class Fkpb {
     String packageId;
     Integer priority;
     String url;
+    Integer state;
 
     @Override
     public String toString() {
@@ -288,4 +289,11 @@ public class Fkpb {
         this.priority = priority;
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
 }

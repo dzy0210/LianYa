@@ -24,10 +24,9 @@ import com.bigkoo.pickerview.view.TimePickerView;
 import com.hfut.lianya.GlobalApplication;
 import com.hfut.lianya.R;
 import com.hfut.lianya.base.RxBaseActivity;
-import com.hfut.lianya.global.GlobalVariable;
+import com.hfut.lianya.bean.Leave;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
-import com.hfut.lianya.bean.Leave;
 import com.hfut.lianya.utils.DateUtil;
 
 import org.angmarch.views.NiceSpinner;
@@ -57,10 +56,10 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
     EditText etLeaveDesc;
     Calendar now= Calendar.getInstance();
     String dateTime = DateUtil.dateToString(now.getTime(), DateUtil.FORMAT_TIMESTAMP);
-    List<String> leaveType = new LinkedList<>(Arrays.asList(GlobalVariable.LEAVE_TYPE));
     TimePickerView pvStartTime, pvEndTime;
     GlobalApplication application = GlobalApplication.getInstance();
     SharedPreferences sp = application.getSharedPreferences("user", MODE_PRIVATE);
+
     int id = 0;
 
     @Override
@@ -95,15 +94,15 @@ public class NewLeaveActivity extends RxBaseActivity implements  View.OnClickLis
         tvCancelLeave.setOnClickListener(this);
         tvLeaveStartTime.setText(dateTime);
         tvLeaveEndTime.setText(dateTime);
-        tvLeaveSender.setText(GlobalVariable.USERNAME);
-        spLeaveType.attachDataSource(leaveType);
+        tvLeaveSender.setText(sp.getString("userName", ""));
+        spLeaveType.attachDataSource(application.leaveType);
         spLeaveType.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
             public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
                 String item = (String) parent.getItemAtPosition(position);
             }
         });
-        spIsComplete.attachDataSource(Arrays.asList(GlobalVariable.IS_COMPLETE));
+        spIsComplete.attachDataSource(Arrays.asList(application.IS_COMPLETE));
         Intent intent = getIntent();
         if(intent.getStringExtra("startTime") != null) {
             id = intent.getIntExtra("id", 0);

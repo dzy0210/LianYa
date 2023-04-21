@@ -17,7 +17,6 @@ import com.hfut.lianya.bean.Deliveries;
 import com.hfut.lianya.databinding.FragmentCourierReadyBinding;
 import com.hfut.lianya.net.HttpRespondBody;
 import com.hfut.lianya.net.RetrofitUtil;
-import com.hfut.lianya.bean.Fkpb;
 
 import java.util.ArrayList;
 import java.util.List;

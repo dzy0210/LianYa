@@ -1,8 +1,6 @@
 package com.hfut.lianya.courier.dashboard;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
